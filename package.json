@@ -1,0 +1,19 @@
+{
+  "name": "reviews",
+  "version": "1.0.0",
+  "description": "Sytem Design Capstone, Reviews widget",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Team-Docker-Divers/Reviews.git"
+  },
+  "author": "Jenna Groth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Team-Docker-Divers/Reviews/issues"
+  },
+  "homepage": "https://github.com/Team-Docker-Divers/Reviews#readme"
+}
