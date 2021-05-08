@@ -1,4 +1,6 @@
--- CREATE DATABASE sdc_reviews;
+DROP DATABASE if exists sdc_reviews;
+
+CREATE DATABASE sdc_reviews;
 
 DROP TABLE if exists reviews cascade;
 

@@ -11,8 +11,8 @@ const retrieveReviewsTest = cb => {
   });
 }
 
-const retrieveNew = (product_id, count, sort, cb) => {
-  db.query(`SELECT * FROM reviews WHERE product_id = ${product_id} ORDER BY date DESC LIMIT ${count};`, (err, results) => {
+const retrieveNew = (product_id, count, cb) => {
+  db.query(`SELECT * FROM reviews WHERE product_id = ${product_id} AND reported != 'true' ORDER BY date DESC LIMIT ${count};`, (err, results) => {
     if (err) {
       cb(err, null);
     } else {
@@ -21,8 +21,8 @@ const retrieveNew = (product_id, count, sort, cb) => {
   });
 }
 
-const retrieveHelpful = (product_id, count, sort, cb) => {
-  db.query(`SELECT * FROM reviews WHERE product_id = ${product_id} ORDER BY helpfulness DESC LIMIT ${count};`, (err, results) => {
+const retrieveHelpful = (product_id, count, cb) => {
+  db.query(`SELECT * FROM reviews WHERE product_id = ${product_id} AND reported != 'true' ORDER BY helpfulness DESC LIMIT ${count};`, (err, results) => {
     if (err) {
       cb(err, null);
     } else {
@@ -31,8 +31,8 @@ const retrieveHelpful = (product_id, count, sort, cb) => {
   });
 }
 
-const retrieveRelevant = (product_id, count, sort, cb) => {
-  db.query(`SELECT * FROM reviews WHERE product_id = ${product_id} ORDER BY date DESC LIMIT ${count};`, (err, results) => {
+const retrieveRelevant = (product_id, count, cb) => {
+  db.query(`SELECT * FROM reviews WHERE product_id = ${product_id} AND reported != 'true' ORDER BY helpfulness DESC, date DESC LIMIT ${count};`, (err, results) => {
     if (err) {
       cb(err, null);
     } else {
@@ -41,4 +41,34 @@ const retrieveRelevant = (product_id, count, sort, cb) => {
   });
 }
 
-module.exports = {retrieveReviewsTest, retrieveNew, retrieveHelpful, retrieveRelevant};
+const postAReview = (body, cb) => {
+  db.query(`SELECT * FROM reviews WHERE product_id = ${product_id} AND reported != true ORDER BY date DESC LIMIT ${count};`, (err, results) => {
+    if (err) {
+      cb(err, null);
+    } else {
+      cb(null, results);
+    }
+  });
+}
+
+const markHelpful = (reviewId, cb) => {
+  db.query(`UPDATE reviews SET helpfulness = helpfulness + 1 WHERE id = ${reviewId}`, (err, results) => {
+    if (err) {
+      cb(err, null);
+    } else {
+      cb(null, results);
+    }
+  });
+}
+
+const markReported = (reviewId, cb) => {
+  db.query(`UPDATE reviews SET reported = true WHERE id = ${reviewId}`, (err, results) => {
+    if (err) {
+      cb(err, null);
+    } else {
+      cb(null, results);
+    }
+  });
+}
+
+module.exports = {retrieveReviewsTest, retrieveNew, retrieveHelpful, retrieveRelevant, postAReview, markHelpful, markReported};

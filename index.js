@@ -22,7 +22,7 @@ app.use(express.json());
 // axios.get(`/api/?endpoint=reviews/?product_id=${productId}&count=100&sort=newest`);
 app.get('/api/reviews', (req, res) => {
   if (req.query.sort === 'newest') {
-    queries.retrieveNew(req.query.product_id, req.query.count, req.query.sort, (err, data) => {
+    queries.retrieveNew(req.query.product_id, req.query.count, (err, data) => {
       if (err) {
         console.log('Error: ', err);
       } else {
@@ -32,7 +32,7 @@ app.get('/api/reviews', (req, res) => {
     });
     // axios.get(`/api/?endpoint=reviews/?product_id=${productId}&count=100&sort=helpful`);
   } else if (req.query.sort === 'helpful') {
-    queries.retrieveHelpful(req.query.product_id, req.query.count, req.query.sort, (err, data) => {
+    queries.retrieveHelpful(req.query.product_id, req.query.count, (err, data) => {
       if (err) {
         console.log('Error: ', err);
       } else {
@@ -42,7 +42,7 @@ app.get('/api/reviews', (req, res) => {
     });
     // axios.get(`/api/?endpoint=reviews/?product_id=${productId}&count=100&sort=relevant`);
   } else {
-    queries.retrieveRelevant(req.query.product_id, req.query.count, req.query.sort, (err, data) => {
+    queries.retrieveRelevant(req.query.product_id, req.query.count, (err, data) => {
       if (err) {
         console.log('Error: ', err);
       } else {
@@ -52,8 +52,6 @@ app.get('/api/reviews', (req, res) => {
     });
   }
 });
-
-
 
 // axios.post(`/api/?endpoint=reviews`, {
 //   product_id: productId,
@@ -66,10 +64,42 @@ app.get('/api/reviews', (req, res) => {
 //   photos: [],
 //   characteristics: characteristics
 // })
+app.post('/api/reviews', (req, res) => {
+  queries.postAReview(req.body, (err, data) => {
+    if (err) {
+      console.log('Error: ', err);
+    } else {
+      console.log('Post response: ', data);
+      res.send(data);
+    }
+  });
+});
+
 
 // axios.put(`/api/?endpoint=reviews/${reviewId}/helpful`); (mark helpful)
+app.put('/api/reviews/:reviewId/helpful', (req, res) => {
+  queries.markHelpful(req.params.reviewId, (err, data) => {
+    if (err) {
+      console.log('Error: ', err);
+    } else {
+      console.log('Put response: ', data);
+      res.send(data);
+    }
+  });
+});
+
 
 // axios.put(`/api/?endpoint=reviews/${reviewId}/report`); (report review)
+app.put('/api/reviews/:reviewId/report', (req, res) => {
+  queries.markReported(req.params.reviewId, (err, data) => {
+    if (err) {
+      console.log('Error: ', err);
+    } else {
+      console.log('Put response: ', data);
+      res.send(data);
+    }
+  });
+});
 
 app.listen(3000, () => {
     console.log('Server listening on port 3000');
