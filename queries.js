@@ -41,11 +41,25 @@ const retrieveRelevant = (product_id, count, cb) => {
   });
 }
 
+//  {product_id: productId,
+//   rating: overallRating,
+//   summary: reviewSummary,
+//   body: reviewBody,
+//   recommend: recc,
+//   name: nickname,
+//   email: email,
+//   photos: [],
+//   characteristics: characteristics}
+// INSERT INTO reviews(product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, helpfulness) VALUES (4, 9, current_timestamp, I like it., I like the way this product fits., true, false, JG, spring.time@gmail.com, 0);
+
 const postAReview = (body, cb) => {
-  db.query(`SELECT * FROM reviews WHERE product_id = ${product_id} AND reported != true ORDER BY date DESC LIMIT ${count};`, (err, results) => {
+  var queryString = `INSERT INTO reviews(product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, helpfulness) VALUES (${parseInt(body.product_id)}, ${parseInt(body.rating)}, current_timestamp, '${body.summary}', '${body.body}', ${body.recommend}, 'false', '${body.name}', '${body.email}', 0)`;
+  console.log('query string: ', queryString);
+  db.query(queryString, (err, results) => {
     if (err) {
       cb(err, null);
     } else {
+      console.log(results);
       cb(null, results);
     }
   });

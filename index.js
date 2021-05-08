@@ -65,6 +65,7 @@ app.get('/api/reviews', (req, res) => {
 //   characteristics: characteristics
 // })
 app.post('/api/reviews', (req, res) => {
+  console.log(req.body);
   queries.postAReview(req.body, (err, data) => {
     if (err) {
       console.log('Error: ', err);

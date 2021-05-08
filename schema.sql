@@ -5,10 +5,10 @@ CREATE DATABASE sdc_reviews;
 DROP TABLE if exists reviews cascade;
 
 CREATE TABLE reviews (
-  id INTEGER NOT NULL PRIMARY KEY,
-  product_id INTEGER,
+  id SERIAL NOT NULL PRIMARY KEY,
+  product_id INTEGER NOT NULL,
   rating INTEGER,
-  date DATE,
+  date DATE NOT NULL,
   summary VARCHAR(200),
   body VARCHAR(1000),
   recommend BOOLEAN,
