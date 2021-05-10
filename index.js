@@ -65,13 +65,13 @@ app.get('/api/reviews', (req, res) => {
 //   characteristics: characteristics
 // })
 app.post('/api/reviews', (req, res) => {
-  console.log(req.body);
-  queries.postAReview(req.body, (err, data) => {
+  // console.log(req.body);
+  queries.postAReview(req.body, (err, message) => {
     if (err) {
       console.log('Error: ', err);
     } else {
-      console.log('Post response: ', data);
-      res.send(data);
+      console.log('Post response successful: ', message);
+      res.send(message);
     }
   });
 });

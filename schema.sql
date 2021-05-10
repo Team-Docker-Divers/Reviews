@@ -1,6 +1,6 @@
-DROP DATABASE if exists sdc_reviews;
+-- DROP DATABASE if exists sdc_reviews;
 
-CREATE DATABASE sdc_reviews;
+-- CREATE DATABASE sdc_reviews;
 
 DROP TABLE if exists reviews cascade;
 
@@ -41,7 +41,7 @@ CREATE TABLE characteristics (
 DROP TABLE if exists photos cascade;
 
 CREATE TABLE photos (
-  id INTEGER NOT NULL PRIMARY KEY,
+  id SERIAL INTEGER NOT NULL PRIMARY KEY,
   review_id_reviews INTEGER NOT NULL,
   url TEXT,
   FOREIGN KEY (review_id_reviews) REFERENCES reviews(id)

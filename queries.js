@@ -50,17 +50,47 @@ const retrieveRelevant = (product_id, count, cb) => {
 //   email: email,
 //   photos: [],
 //   characteristics: characteristics}
-// INSERT INTO reviews(product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, helpfulness) VALUES (4, 9, current_timestamp, I like it., I like the way this product fits., true, false, JG, spring.time@gmail.com, 0);
 
 const postAReview = (body, cb) => {
-  var queryString = `INSERT INTO reviews(product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, helpfulness) VALUES (${parseInt(body.product_id)}, ${parseInt(body.rating)}, current_timestamp, '${body.summary}', '${body.body}', ${body.recommend}, 'false', '${body.name}', '${body.email}', 0)`;
-  console.log('query string: ', queryString);
-  db.query(queryString, (err, results) => {
+  var queryStringBody = `INSERT INTO reviews(product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, helpfulness) VALUES (${parseInt(body.product_id)}, ${parseInt(body.rating)}, current_timestamp, '${body.summary}', '${body.body}', ${body.recommend}, 'false', '${body.name}', '${body.email}', 0)`;
+  db.query(queryStringBody, (err, results) => {
     if (err) {
+      console.log(err);
       cb(err, null);
     } else {
-      console.log(results);
-      cb(null, results);
+      console.log('successfully posted review body: ', results);
+      var queryStringPhoto = `INSERT INTO photos(review_id_reviews, url) VALUES `;
+      for (var i = 0; i < body.photos.length; i++) {
+        if (i < body.photos.length - 1) {
+          queryStringPhoto = queryStringPhoto.concat(`((SELECT id FROM reviews ORDER BY date DESC LIMIT 1), '${body.photos[i]}'), `);
+        } else {
+          queryStringPhoto = queryStringPhoto.concat(`((SELECT id FROM reviews ORDER BY date DESC LIMIT 1), '${body.photos[i]}')`);
+        }
+      }
+      console.log(queryStringPhoto);
+      db.query(queryStringPhoto, (err, results) => {
+        if (err) {
+          console.log(err);
+          cb(err, null);
+        } else {
+          console.log('successfully posted review photo: ', results);
+        }
+      })
+      var queryStringCharacteristics = `INSERT INTO reviews_charactersitics(characteristic_id_characteristics, review_id_reviews, value) VALUES `;
+      for (var key in body.characteristics) {
+        queryStringCharacteristics = queryStringCharacteristics.concat(`(${parseInt(key)}, (SELECT id FROM reviews ORDER BY date DESC LIMIT 1), ${body.characteristics[key]}), `);
+      }
+      queryStringCharacteristics = queryStringCharacteristics.slice(0, -2);
+      console.log(queryStringCharacteristics);
+      db.query(queryStringCharacteristics, (err, results) => {
+        if (err) {
+          console.log(err);
+          cb(err, null);
+        } else {
+          console.log('successfully posted review characteristic', results);
+          cb(null, 'success');
+        }
+      })
     }
   });
 }
