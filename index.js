@@ -51,8 +51,19 @@ app.get('/api/reviews', (req, res) => {
       if (err) {
         console.log('Error: ', err);
       } else {
-        console.log('Review data: ', data.rows);
-        res.send(data.rows);
+        let photoPromises = queries.generatePhotoPromises(data.rows);
+        reviews.results.push(data.rows);
+        Promise.all(photoPromises)
+        .then((photos) => {
+          photos.forEach((photo, index) => {
+            reviews.results[0][index].photos = photo;
+          })
+        })
+        .then(() => {
+          reviews.results = reviews.results.flat();
+          console.log(reviews);
+          res.send(reviews);
+        })
       }
     });
     // axios.get(`/api/?endpoint=reviews/?product_id=${productId}&count=100&sort=relevant`);
@@ -61,8 +72,19 @@ app.get('/api/reviews', (req, res) => {
       if (err) {
         console.log('Error: ', err);
       } else {
-        console.log('Review data: ', data.rows);
-        res.send(data.rows);
+        let photoPromises = queries.generatePhotoPromises(data.rows);
+        reviews.results.push(data.rows);
+        Promise.all(photoPromises)
+        .then((photos) => {
+          photos.forEach((photo, index) => {
+            reviews.results[0][index].photos = photo;
+          })
+        })
+        .then(() => {
+          reviews.results = reviews.results.flat();
+          console.log(reviews);
+          res.send(reviews);
+        })
       }
     });
   }
