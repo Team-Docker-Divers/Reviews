@@ -41,6 +41,28 @@ const retrieveRelevant = (product_id, count, cb) => {
   });
 }
 
+const generatePhotoPromises = (reviews) => {
+  var promiseArray = [];
+  for (var i = 0; i < reviews.length; i++) {
+    let queryString = `SELECT * FROM photos WHERE review_id_reviews = ${reviews[i].id};`;
+    promiseArray.push(queryPromise(queryString))
+  }
+  return promiseArray;
+}
+
+const queryPromise = (queryString) => {
+  return new Promise((resolve, reject) => {
+    db.query(queryString, (err, data) => {
+      if (err) {
+        return reject(err);
+      } else {
+        return resolve(data.rows);
+      }
+    });
+  });
+}
+
+
 //  {product_id: productId,
 //   rating: overallRating,
 //   summary: reviewSummary,
@@ -115,4 +137,4 @@ const markReported = (reviewId, cb) => {
   });
 }
 
-module.exports = {retrieveReviewsTest, retrieveNew, retrieveHelpful, retrieveRelevant, postAReview, markHelpful, markReported};
+module.exports = {retrieveReviewsTest, retrieveNew, retrieveHelpful, retrieveRelevant, generatePhotoPromises, postAReview, markHelpful, markReported};

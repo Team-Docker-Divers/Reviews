@@ -21,13 +21,28 @@ app.use(express.json());
 
 // axios.get(`/api/?endpoint=reviews/?product_id=${productId}&count=100&sort=newest`);
 app.get('/api/reviews', (req, res) => {
+  let reviews = {
+    product_id: req.query.product_id,
+    results: []
+  };
   if (req.query.sort === 'newest') {
     queries.retrieveNew(req.query.product_id, req.query.count, (err, data) => {
       if (err) {
         console.log('Error: ', err);
       } else {
-        console.log('Review data: ', data.rows);
-        res.send(data.rows);
+        let photoPromises = queries.generatePhotoPromises(data.rows);
+        reviews.results.push(data.rows);
+        Promise.all(photoPromises)
+        .then((photos) => {
+          photos.forEach((photo, index) => {
+            reviews.results[0][index].photos = photo;
+          })
+        })
+        .then(() => {
+          reviews.results = reviews.results.flat();
+          console.log(reviews);
+          res.send(reviews);
+        })
       }
     });
     // axios.get(`/api/?endpoint=reviews/?product_id=${productId}&count=100&sort=helpful`);
