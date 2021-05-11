@@ -62,9 +62,9 @@ const postAReview = (body, cb) => {
       var queryStringPhoto = `INSERT INTO photos(review_id_reviews, url) VALUES `;
       for (var i = 0; i < body.photos.length; i++) {
         if (i < body.photos.length - 1) {
-          queryStringPhoto = queryStringPhoto.concat(`((SELECT id FROM reviews ORDER BY date DESC LIMIT 1), '${body.photos[i]}'), `);
+          queryStringPhoto = queryStringPhoto.concat(`((SELECT max(id) FROM reviews), '${body.photos[i]}'), `);
         } else {
-          queryStringPhoto = queryStringPhoto.concat(`((SELECT id FROM reviews ORDER BY date DESC LIMIT 1), '${body.photos[i]}')`);
+          queryStringPhoto = queryStringPhoto.concat(`((SELECT max(id) FROM reviews), '${body.photos[i]}')`);
         }
       }
       console.log(queryStringPhoto);
@@ -78,7 +78,7 @@ const postAReview = (body, cb) => {
       })
       var queryStringCharacteristics = `INSERT INTO reviews_charactersitics(characteristic_id_characteristics, review_id_reviews, value) VALUES `;
       for (var key in body.characteristics) {
-        queryStringCharacteristics = queryStringCharacteristics.concat(`(${parseInt(key)}, (SELECT id FROM reviews ORDER BY date DESC LIMIT 1), ${body.characteristics[key]}), `);
+        queryStringCharacteristics = queryStringCharacteristics.concat(`(${parseInt(key)}, (SELECT max(id) FROM reviews), ${body.characteristics[key]}), `);
       }
       queryStringCharacteristics = queryStringCharacteristics.slice(0, -2);
       console.log(queryStringCharacteristics);

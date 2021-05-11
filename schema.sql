@@ -22,7 +22,7 @@ CREATE TABLE reviews (
 DROP TABLE if exists reviews_charactersitics cascade;
 
 CREATE TABLE reviews_charactersitics (
-  id SERIAL NOT NULL,
+  id SERIAL NOT NULL PRIMARY KEY,
   characteristic_id_characteristics INTEGER NOT NULL,
   review_id_reviews INTEGER NOT NULL,
   value INTEGER,
@@ -41,7 +41,7 @@ CREATE TABLE characteristics (
 DROP TABLE if exists photos cascade;
 
 CREATE TABLE photos (
-  id SERIAL INTEGER NOT NULL PRIMARY KEY,
+  id SERIAL NOT NULL PRIMARY KEY,
   review_id_reviews INTEGER NOT NULL,
   url TEXT,
   FOREIGN KEY (review_id_reviews) REFERENCES reviews(id)
@@ -52,3 +52,7 @@ CREATE TABLE photos (
 \COPY characteristics FROM /Users/jennagroth/Documents/SDC_Application_Data/characteristics.csv DELIMITER ',' CSV HEADER;
 \COPY reviews_charactersitics FROM /Users/jennagroth/Documents/SDC_Application_Data/characteristic_reviews.csv DELIMITER ',' CSV HEADER;
 \COPY photos FROM /Users/jennagroth/Documents/SDC_Application_Data/reviews_photos.csv DELIMITER ',' CSV HEADER;
+
+SELECT setval('reviews_id_seq', (select max(id) FROM reviews));
+SELECT setval('reviews_charactersitics_id_seq', (select max(id) FROM reviews_charactersitics));
+SELECT setval('photos_id_seq', (select max(id) FROM photos));
