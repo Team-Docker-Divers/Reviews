@@ -2,9 +2,11 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const queries = require('./queries.js');
+var cors = require('cors');
 
-app.use(express.static(`${__dirname}/../client/dist`));
+// app.use(express.static(`${__dirname}/../client/dist`));
 app.use(express.json());
+app.use(cors());
 
 // test get request
 // app.get('/api/reviews', (req, res) => {
