@@ -45,6 +45,9 @@ app.get('/api/reviews', (req, res) => {
           console.log(reviews);
           res.send(reviews);
         })
+        .catch((err) => {
+          console.log(err);
+        })
       }
     });
     // axios.get(`/api/?endpoint=reviews/?product_id=${productId}&count=100&sort=helpful`);

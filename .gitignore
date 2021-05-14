@@ -1,3 +1,4 @@
 node_modules
 /Users/jennagroth/immersive/Reviews/FECfolder/FEC/.gitignore
 /Users/jennagroth/immersive/Reviews/FECfolder/FEC/APIconfig.js
+reviews_data.sql
