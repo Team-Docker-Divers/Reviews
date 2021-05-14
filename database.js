@@ -9,6 +9,8 @@ const client = new Client({
     database: 'sdc_reviews'
 });
 
-client.connect();
+client.connect()
+.then(() => {console.log('connected to postgres');})
+.catch((err) => {console.log('error: ', err);})
 
 module.exports = client;
