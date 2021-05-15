@@ -54,5 +54,11 @@ CREATE TABLE photos (
 \COPY photos FROM /Users/jennagroth/Documents/SDC_Application_Data/reviews_photos.csv DELIMITER ',' CSV HEADER;
 
 SELECT setval('reviews_id_seq', (select max(id) FROM reviews));
-SELECT setval('reviews_charactersitics_id_seq', (select max(id) FROM reviews_charactersitics));
+SELECT setval('reviews_characteristics_id_seq', (select max(id) FROM reviews_characteristics));
 SELECT setval('photos_id_seq', (select max(id) FROM photos));
+
+create index product_id_index on reviews (product_id);
+create index review_id_index on reviews (id);
+create index reviews_characteristics_id_index on reviews_characteristics (id);
+create index photos_id_index on photos (id);
+create index review_id_reviews_index on photos(review_id_reviews);

@@ -9,17 +9,17 @@ app.use(express.json());
 app.use(cors());
 
 // test get request
-// app.get('/api/reviews', (req, res) => {
-//   console.log(req.url);
-//   queries.retrieveReviewsTest((err, data) => {
-//     if (err) {
-//       console.log('Error');
-//     } else {
-//       console.log('Review data: ', data.rows);
-//       res.send(data.rows);
-//     }
-//   })
-// });
+app.get('/api/test', (req, res) => {
+  console.log(req.url);
+  queries.retrieveReviewsTest((err, data) => {
+    if (err) {
+      console.log('Error');
+    } else {
+      console.log('Review data: ', data.rows);
+      res.send(data.rows);
+    }
+  })
+});
 
 // axios.get(`/api/?endpoint=reviews/?product_id=${productId}&count=100&sort=newest`);
 app.get('/api/reviews', (req, res) => {
@@ -41,9 +41,8 @@ app.get('/api/reviews', (req, res) => {
           })
         })
         .then(() => {
-          reviews.results = reviews.results.flat();
-          console.log(reviews);
-          res.send(reviews);
+          console.log(reviews.results[0]);
+          res.send({'results': reviews.results[0]});
         })
         .catch((err) => {
           console.log(err);
@@ -65,9 +64,11 @@ app.get('/api/reviews', (req, res) => {
           })
         })
         .then(() => {
-          reviews.results = reviews.results.flat();
-          console.log(reviews);
-          res.send(reviews);
+          console.log(reviews.results[0]);
+          res.send({'results': reviews.results[0]});
+        })
+        .catch((err) => {
+          console.log(err);
         })
       }
     });
@@ -86,9 +87,11 @@ app.get('/api/reviews', (req, res) => {
           })
         })
         .then(() => {
-          reviews.results = reviews.results.flat();
-          console.log(reviews);
-          res.send(reviews);
+          console.log(reviews.results[0]);
+          res.send({'results': reviews.results[0]});
+        })
+        .catch((err) => {
+          console.log(err);
         })
       }
     });
