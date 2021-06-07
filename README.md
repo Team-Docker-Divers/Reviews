@@ -1,2 +1,2 @@
 # Reviews
-System Design Capstone- Reviews Widget
+This repo contains the back end framework for the Reviews Widget data.
